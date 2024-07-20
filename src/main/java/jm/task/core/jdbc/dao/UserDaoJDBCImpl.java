@@ -11,12 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    public UserDaoJDBCImpl() {
 
-    }
 
     public void createUsersTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS `mydbproj1`.`users` (\n" +
+        String sql = "CREATE TABLE IF NOT EXISTS " + Util.getName() + " (\n" +
                 "  `id` INT NOT NULL AUTO_INCREMENT,\n" +
                 "  `name` VARCHAR(45) NULL,\n" +
                 "  `lastName` VARCHAR(45) NULL,\n" +
@@ -28,12 +26,12 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void dropUsersTable() {
-        String sql = "DROP TABLE IF EXISTS `mydbproj1`.`users`";
+        String sql = "DROP TABLE IF EXISTS " + Util.getName();
         connectionExecute(sql);
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        String sql = "INSERT INTO `mydbproj1`.`users` (name, lastName, age) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO " + Util.getName() + " (name, lastName, age) VALUES (?, ?, ?)";
         try (Connection conn = Util.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, name);
@@ -47,13 +45,13 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-        String sql = "DELETE FROM `mydbproj1`.`users` WHERE id =" + id;
+        String sql = "DELETE FROM " + Util.getName() + " WHERE id =" + id;
         connectionExecute(sql);
     }
 
     public List<User> getAllUsers() {
-        String sql = "SELECT * FROM `mydbproj1`.`users`";
-        List<User> users = new ArrayList<User>();
+        String sql = "SELECT * FROM " + Util.getName();
+        List<User> users = new ArrayList<>();
         try (Connection conn = Util.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -72,11 +70,11 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        String sql = "DELETE FROM `mydbproj1`.`users`";
+        String sql = "DELETE FROM " + Util.getName();
         connectionExecute(sql);
     }
 
-    private void connectionExecute (String sql) {
+    private void connectionExecute(String sql) {
         try (Connection conn = Util.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.executeUpdate();
@@ -84,6 +82,4 @@ public class UserDaoJDBCImpl implements UserDao {
             e.printStackTrace();
         }
     }
-
-
 }
