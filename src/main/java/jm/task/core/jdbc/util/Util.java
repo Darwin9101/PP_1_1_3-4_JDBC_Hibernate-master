@@ -15,6 +15,7 @@ public class Util {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "Nthhjhx91";
     private static final String NAME = "`mydbproj1`.`users`";
+    private static final String HIBERNATE_NAME = "User";
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
     public static Connection getConnection() {
@@ -37,10 +38,10 @@ public class Util {
         try {
             Configuration configuration = new Configuration();
             configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-            configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
-            configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/mydbproj1");
-            configuration.setProperty("hibernate.connection.username", "root");
-            configuration.setProperty("hibernate.connection.password", "Nthhjhx91");
+            configuration.setProperty("hibernate.connection.driver_class", DB_DRIVER);
+            configuration.setProperty("hibernate.connection.url", DB_URL);
+            configuration.setProperty("hibernate.connection.username", DB_USER);
+            configuration.setProperty("hibernate.connection.password", DB_PASSWORD);
             configuration.setProperty("hibernate.hbm2ddl.auto", "update");
             configuration.setProperty("show_sql", "true");
 
@@ -61,6 +62,9 @@ public class Util {
 
     public static void shutdown() {
         getSessionFactory().close();
+    }
+    public static String getHibernateName() {
+        return HIBERNATE_NAME;
     }
 }
 

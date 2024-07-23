@@ -100,7 +100,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
         try {
             tx = session.beginTransaction();
-            Query<User> query = session.createQuery("FROM User", User.class);
+            Query<User> query = session.createQuery("FROM "  + Util.getHibernateName(), User.class);
             users = query.list();
             tx.commit();
         } catch (Exception e) {
@@ -119,7 +119,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void cleanUsersTable() {
         try (Session session = Util.getSessionFactory().openSession()) {
             Transaction tx = session.beginTransaction();
-            Query query = session.createQuery("DELETE FROM User");
+            Query query = session.createQuery("DELETE FROM " + Util.getHibernateName());
             query.executeUpdate();
             tx.commit();
         } catch (Exception e) {
